@@ -8,6 +8,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import it.polito.tdp.PremierLeague.model.Connessione;
+import it.polito.tdp.PremierLeague.model.Match;
 import it.polito.tdp.PremierLeague.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +21,7 @@ import javafx.scene.control.TextField;
 
 public class FXMLController {
 
-	Model model;
+	private Model model;
 	
     @FXML // ResourceBundle that was given to the FXMLLoader
     private ResourceBundle resources;
@@ -39,13 +42,13 @@ public class FXMLController {
     private TextField txtMinuti; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbMese"
-    private ComboBox<?> cmbMese; // Value injected by FXMLLoader
+    private ComboBox<Integer> cmbMese; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbM1"
-    private ComboBox<?> cmbM1; // Value injected by FXMLLoader
+    private ComboBox<Match> cmbM1; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbM2"
-    private ComboBox<?> cmbM2; // Value injected by FXMLLoader
+    private ComboBox<Match> cmbM2; // Value injected by FXMLLoader
 
     @FXML // fx:id="txtResult"
     private TextArea txtResult; // Value injected by FXMLLoader
@@ -53,15 +56,73 @@ public class FXMLController {
     @FXML
     void doConnessioneMassima(ActionEvent event) {
     	
-    }
-
-    @FXML
-    void doCreaGrafo(ActionEvent event) {
+    	try {
+    		List<Connessione> connessioni = new ArrayList<>(this.model.getConnessioniDescrescenti());
+    		txtResult.appendText("Coppie con connessione massima:\n\n");
+    		Connessione prima = connessioni.get(0);
+    		int i = 0;
+    		while(prima.getGiocatori() == connessioni.get(i).getGiocatori()) {
+    			txtResult.appendText(connessioni.get(i).toString() + "\n");
+    			i++;
+    		}
+    	}catch(NullPointerException e) {
+    		txtResult.appendText("Creare grafo prima di proseguire.\n");
+    	}
     	
     }
 
     @FXML
+    void doCreaGrafo(ActionEvent event) {
+    	try {	
+    		Integer mese = cmbMese.getValue();
+	    	if(mese == null) {
+	    		txtResult.appendText("Selezionare un mese prima di proseguire.\n");
+	    		return;
+	    	}
+    	
+    		int soglia = Integer.parseInt(txtMinuti.getText());
+    		
+    		if(soglia < 0 || soglia > 90) {
+    			txtResult.appendText("Inserire un numero intero di minuti compreso fra 0 e 90\n");
+        		return;
+    		}
+    		this.model.creaGrafo(soglia, mese);
+    		txtResult.setText("Grafo creato!\nNumero vertici: " + model.getNumeroVertici());
+    		txtResult.appendText("\nNumero archi: " + model.getNumeroArchi() + "\n");
+    		cmbM1.getItems().clear();
+    		cmbM2.getItems().clear();
+    		cmbM1.getItems().addAll(this.model.getListaMatch());
+    		cmbM2.getItems().addAll(this.model.getListaMatch());
+    		
+    	}catch(NumberFormatException e) {
+    		txtResult.appendText("Inserire un numero intero di minuti compreso fra 0 e 90\n");
+    		return;
+    	}
+		
+    }
+
+    @FXML
     void doCollegamento(ActionEvent event) {
+    	try {
+    		Match m1 = cmbM1.getValue();
+    		Match m2 = cmbM2.getValue();
+    		if(m1.equals(m2)){
+        		txtResult.appendText("Selezionare due match diversi.\n");
+        		return;
+        	}
+    		List<Match> result = new ArrayList<>(this.model.cercaCollegamento(m1, m2));
+    		if(result.size() == 1) {
+    			//solo m1, niente cammino
+    			txtResult.appendText("\n\nNon esiste alcun cammino aciclico che colleghi i due match.\n");
+    			return;
+    		}
+    		txtResult.appendText("\n\nTrovato cammino aciclico che collega i due match!\nDimensione " + result.size() + ", Peso " + this.model.getPesoMax() + "\n");
+    		for(Match m : result)
+    			txtResult.appendText(m.toString() + "\n");
+    	}catch(NullPointerException e) {
+    		txtResult.appendText("Selezionare due match dopo la creazione del grafo prima di procedere.\n");
+    		return;
+    	}
     	
     }
 
@@ -79,6 +140,8 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	for(int i=1; i<=12; i++)
+    		cmbMese.getItems().add(i);
   
     }
     

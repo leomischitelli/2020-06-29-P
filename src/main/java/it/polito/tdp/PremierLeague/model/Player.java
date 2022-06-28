@@ -1,8 +1,8 @@
 package it.polito.tdp.PremierLeague.model;
 
 public class Player {
-	Integer playerID;
-	String name;
+	private Integer playerID;
+	private String name;
 	
 	public Player(Integer playerID, String name) {
 		super();

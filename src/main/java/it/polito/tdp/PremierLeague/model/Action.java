@@ -1,19 +1,19 @@
 package it.polito.tdp.PremierLeague.model;
 
 public class Action {
-	Integer playerID;
-	Integer matchID;
-	Integer teamID;
-	Integer starts;
-	Integer goals;
-	Integer timePlayed;
-	Integer redCards;
-	Integer yellowCards;
-	Integer totalSuccessfulPassesAll;
-	Integer totalUnsuccessfulPassesAll;
-	Integer assists;
-	Integer totalFoulsConceded;
-	Integer offsides;
+	private Integer playerID;
+	private Integer matchID;
+	private Integer teamID;
+	private Integer starts;
+	private Integer goals;
+	private Integer timePlayed;
+	private Integer redCards;
+	private Integer yellowCards;
+	private Integer totalSuccessfulPassesAll;
+	private Integer totalUnsuccessfulPassesAll;
+	private Integer assists;
+	private Integer totalFoulsConceded;
+	private Integer offsides;
 	
 	public Action(Integer playerID, Integer matchID, Integer teamID, Integer starts, Integer goals, Integer timePlayed,
 			Integer redCards, Integer yellowCards, Integer totalSuccessfulPassesAll, Integer totalUnsuccessfulPassesAll,

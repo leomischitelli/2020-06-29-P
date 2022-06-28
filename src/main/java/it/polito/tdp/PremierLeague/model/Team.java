@@ -1,8 +1,8 @@
 package it.polito.tdp.PremierLeague.model;
 
 public class Team {
-	Integer teamID;
-	String name;
+	private Integer teamID;
+	private String name;
 
 	public Team(Integer teamID, String name) {
 		super();
@@ -47,5 +47,12 @@ public class Team {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return name;
+	}
+	
+	
 	
 }

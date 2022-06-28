@@ -3,29 +3,25 @@ package it.polito.tdp.PremierLeague.model;
 import java.time.LocalDateTime;
 
 public class Match {
-	Integer matchID;
-	Integer teamHomeID;
-	Integer teamAwayID;
-	Integer teamHomeFormation;
-	Integer teamAwayFormation;
-	Integer resultOfTeamHome;
+	private Integer matchID;
+	private Team teamHome;
+	private Team teamAway;
+	private Integer teamHomeFormation;
+	private Integer teamAwayFormation;
+	private Integer resultOfTeamHome;
 	
-	String teamHomeNAME;
-	String teamAwayNAME;
 
 	LocalDateTime date;
 	
-	public Match(Integer matchID, Integer teamHomeID, Integer teamAwayID, Integer teamHomeFormation,
-			Integer teamAwayFormation, Integer resultOfTeamHome, LocalDateTime date, String teamHomeNAME, String teamAwayNAME) {
+	public Match(Integer matchID, Team teamHome, Team teamAway, Integer teamHomeFormation,
+			Integer teamAwayFormation, Integer resultOfTeamHome, LocalDateTime date) {
 		super();
 		this.matchID = matchID;
-		this.teamHomeID = teamHomeID;
-		this.teamAwayID = teamAwayID;
+		this.teamHome = teamHome;
+		this.teamAway = teamAway;
 		this.teamHomeFormation = teamHomeFormation;
 		this.teamAwayFormation = teamAwayFormation;
 		this.resultOfTeamHome = resultOfTeamHome;
-		this.teamHomeNAME = teamHomeNAME;
-		this.teamAwayNAME = teamAwayNAME;
 		this.date = date;
 	}
 	
@@ -35,18 +31,23 @@ public class Match {
 	public void setMatchID(Integer matchID) {
 		this.matchID = matchID;
 	}
-	public Integer getTeamHomeID() {
-		return teamHomeID;
+	
+	public Team getTeamHome() {
+		return teamHome;
 	}
-	public void setTeamHomeID(Integer teamHomeID) {
-		this.teamHomeID = teamHomeID;
+
+	public void setTeamHome(Team teamHome) {
+		this.teamHome = teamHome;
 	}
-	public Integer getTeamAwayID() {
-		return teamAwayID;
+
+	public Team getTeamAway() {
+		return teamAway;
 	}
-	public void setTeamAwayID(Integer teamAwayID) {
-		this.teamAwayID = teamAwayID;
+
+	public void setTeamAway(Team teamAway) {
+		this.teamAway = teamAway;
 	}
+
 	public Integer getTeamHomeFormation() {
 		return teamHomeFormation;
 	}
@@ -80,25 +81,10 @@ public class Match {
 		this.resultOfTeamHome = resultOfTeamHome;
 	}
 
-	public String getTeamHomeNAME() {
-		return teamHomeNAME;
-	}
-
-	public void setTeamHomeNAME(String teamHomeNAME) {
-		this.teamHomeNAME = teamHomeNAME;
-	}
-
-	public String getTeamAwayNAME() {
-		return teamAwayNAME;
-	}
-
-	public void setTeamAwayNAME(String teamAwayNAME) {
-		this.teamAwayNAME = teamAwayNAME;
-	}
-
+	
 	@Override
 	public String toString() {
-		return "[" + matchID + "] " + teamHomeNAME + " vs. " + teamAwayNAME;
+		return "[" + matchID + "] " + teamHome.toString() + " vs. " + teamAway.toString();
 	}
 
 	@Override
